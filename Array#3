@@ -1,0 +1,120 @@
+#include <iostream>
+
+
+
+
+using namespace std;
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	char *c = " ";
+	int i, j;
+	char myArray[3][3];
+
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 3; j++)
+			myArray[i][j] = *c;
+	}
+
+/*	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 3; j++)
+		{
+			cout << myArray[i][j] << "|";
+		}
+		cout << "\n";
+	}*/
+
+	char *O = "O";
+	char *x = "X";
+	int h, g;
+	int n;
+	int r=0;
+
+
+	/*	myArray[0][0] == myArray[1][1] == myArray[2][2]
+		myArray[0][0] == myArray[1][0] == myArray[2][0]
+		myArray[0][0] == myArray[0][1] == myArray[0][2]
+		myArray[0][1] == myArray[1][1] == myArray[2][1]
+		myArray[0][2] == myArray[1][2] == myArray[2][2]
+		myArray[1][0] == myArray[1][1] == myArray[1][2]
+		myArray[2][0] == myArray[2][1] == myArray[2][2]
+
+*/
+
+	 
+	for (int v = 0; v < 4; v++)
+	{
+		for (;;) {
+			if (r != 0) { break; }
+			cout << "СДЕЛАЙ ХОД(вводи номер строки, потом столбца!";
+			cin >> h;
+			cin >> g;
+			if (myArray[h-1][g-1] == *O) { cout << "НЕ ТУДА, ТАМ ЖЕ УЖЕ НУЛИК!11"; }
+			else { myArray[h-1][g-1] = *x; r++; }
+		}
+
+
+		if (myArray[2][0] == *c && myArray[2][0] != *x) { myArray[2][0] = *O; }
+		else {
+			if (myArray[1][1] == *c && myArray[1][1] != *x) { myArray[1][1] = *O; }
+			else {
+				if (myArray[0][2] == *c && myArray[0][2] != *x) { myArray[0][2] = *O; }
+				else {
+					if (myArray[1][0] == *c && myArray[1][0] != *x) { myArray[1][0] = *O; }
+					else {
+						if (myArray[0][1] == *c && myArray[0][1] != *x) { myArray[0][1] = *O; }
+						else {
+							if (myArray[0][0] == *c && myArray[0][0] != *x) { myArray[0][0] = *O; }
+							else {
+								if (myArray[2][2] == *c && myArray[2][2] != *x) { myArray[2][2] = *O; }
+								else {
+									if (myArray[1][2] == *c && myArray[1][2] != *x) { myArray[1][2] = *O; }
+									else {
+										if (myArray[2][1] == *c && myArray[2][1] != *x) { myArray[2][1] = *O; };
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		r = 0;
+		for (i = 0; i < 3; i++) {
+			for (j = 0; j < 3; j++)
+			{
+				cout << myArray[i][j] << "|";
+			}
+			cout << "\n";
+		}
+		if (myArray[0][0] == myArray[1][1] && myArray[0][0] == myArray[2][2] && myArray[2][2] == myArray[1][1] && myArray[0][0] != *c)
+		{
+			cout << "кто-то ПОБЕДИЛ";	break;
+		}
+		if (myArray[0][0] == myArray[1][0] && myArray[1][0] == myArray[2][0] && myArray[2][0] == myArray[0][0] && myArray[0][0] != *c) {
+			cout << "кто-то ПОБЕДИЛ";	break;  
+			}
+			if (myArray[0][0] == myArray[0][1] && myArray[0][1] == myArray[0][2] && myArray[0][0]== myArray[0][2] && myArray[0][0] != *c) {
+				cout << "кто-то ПОБЕДИЛ";	break; 
+			}
+			if (myArray[0][1] == myArray[1][1] && myArray[1][1] == myArray[2][1] && myArray[2][1]== myArray[0][1] && myArray[0][1] != *c) {
+				cout << "кто-то ПОБЕДИЛ";	break;  
+			}
+			if (myArray[0][2] == myArray[1][2] && myArray[1][2] == myArray[2][2] && myArray[2][2] == myArray[0][2] && myArray[0][2] != *c) {
+				cout << "кто-то ПОБЕДИЛ"; break;  
+			}
+			if (myArray[1][0] == myArray[1][1] && myArray[1][1] == myArray[1][2] && myArray[1][2] == myArray[1][0] && myArray[1][0] != *c) {
+				cout << "кто-то ПОБЕДИЛ";	break; 
+			}
+			if (myArray[2][0] == myArray[2][1] && myArray[2][1] == myArray[2][2] && myArray[2][2]== myArray[2][0] && myArray[2][0] != *c) {
+				cout << "кто-то ПОБЕДИЛ";	break;
+			}
+	}
+
+
+
+
+	system("pause");
+    return 0;
+}
