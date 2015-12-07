@@ -1,0 +1,26 @@
+#include <iostream> 
+
+using namespace std;
+
+
+
+int main()
+
+{
+	setlocale(0, "");
+	int i, j, k;
+	 cin >> k;
+	 for (i = 2; i<k; i++) {
+
+		for (j = 2; j <= (i / j); j++)
+
+			if (!(i%j)) break; // Если число имеет множитель, значит, оно не простое. 
+
+	 if (j >(i / j)) cout << i <<" ";
+
+		
+	}
+	 system("pause");
+	 return 0;
+
+}
