@@ -1,0 +1,172 @@
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+
+int main(int argc, char* argv[])
+{
+	setlocale(LC_ALL, "Russian");
+	cout << "Введите кол-во элементов массива\n";
+	int i;
+	cin >> i;
+	cout << "Введите элементы массива\n";
+	int *a = new int[i];
+	for (int j = 0; j<i; j++)
+		cin >> a[j];
+
+	int count;
+	cout << "Выберите действие:\n1) Количество четных чисел.\n2) Номер минимального числа.\n3) Количество чисел, равных A.\n4) Номер первого отрицательного числа.\n5) Максимальное отрицательное число.\n6) Количество чисел, меньших C1.\n7) Разность сумм четных и нечётных элементов массива.\n8) Выход.\n";
+	for (;;) {
+		cin >> count;
+		switch (count)
+		{
+
+
+		case 1:
+		{int k = 0;
+		for (int j = 0; j < i; j++)
+		{
+			if (a[j] % 2 == 0)
+			{
+				k++;
+			}
+		}
+		if (k == 0) { cout << "Четных нет\n"; }
+		else {
+			cout << k;
+		}
+		break; }
+
+
+		case 2:
+		{int min = a[0]; int k = 0;
+
+		for (int j = 0; j < i; j++)
+		{
+			if (min > a[j])
+			{
+				min = a[j];
+				k = j;
+			}
+		}
+		if (k == 0) { cout << "все числа одинаковые!\n"; }
+		else {
+			cout << k + 1;
+		}
+		break; }
+
+
+
+		case 3:
+		{int A; int k = 0;
+		cout << "введите число, количество равных которому хотите найти\n";
+		cin >> A;
+
+		for (int j = 0; j < i; j++)
+		{
+			if (A == a[j])
+			{
+				k++;
+			}
+		}
+		if (k == 0) { cout << "нет чисел, равному заданному"; }
+		else { cout << k; }
+		 
+		break; }
+
+
+		case 4:
+		{int c = 0;
+		int k = -1;
+		
+			for (int j = 0; j < i; j++)
+			{
+				if (a[j] < 0)
+				{
+					k = j;
+					c++;
+					if (c == 0) { break; }
+				}
+			}
+			if (k == -1) { cout << "нет отрицательных :( \n"; }
+			else
+		{cout << k + 1; }
+		break; }
+
+
+
+		case 5:
+		{int  A = 5000;
+		for (int j = 0; j < i; j++)
+		{
+			if (a[j] < 0)
+			{
+				A = a[j];
+			}
+		}
+
+		for (int j = 0; j < i; j++)
+		{
+			if (A < a[j] && a[j] < 0)
+			{
+				A = a[j];
+			}
+		}
+		if (A == 5000) { cout << "нет отрицательных\n"; }
+		else {
+			cout << A;
+		}
+		break; }
+
+
+		case 6:
+		{
+		int k = 0;
+		for (int j = 0; j < i; j++)
+		{
+			if (a[j] < a[0])
+			{
+				k++;
+			}
+		}
+		if(k==0){cout << "чисел, меньше чем первого нет"; }
+else
+{
+	cout << k;
+}
+		break; }
+
+
+		case 7:
+		{int c = 0, n = 0; int k;
+
+		for (int j = 0; j < i; j++)
+		{
+			if (a[j] % 2 == 0)
+			{
+				c = c + a[j];
+			}
+			if (a[j] % 2 != 0)
+			{
+				n = n + a[j];
+			}
+		}
+		k = c - n;
+		cout << k;
+		break; }
+		case 8: {
+			break;
+		//
+		//
+		//
+		}
+
+		default: cout << "Неправильный ввод";
+
+		}
+		
+		if (count == 8) { break; }
+		cout << "Вводите номер следующего действия\n";
+	}
+	system("pause");
+return 0;
+}
