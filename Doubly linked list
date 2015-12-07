@@ -18,8 +18,8 @@ public:
 	void Find(int v);
 	void Add(int x); //Функция добавления элементов в список
 	void Delete(int rt);
-	void NPaste(int j,int shto);
-	
+	void NPaste(int j, int shto);
+	void Show1();
 };
 
 
@@ -54,7 +54,7 @@ void List::Add(int x)
 
 void List::Show()
 {
-	
+
 	Node *temp = Head;
 	//ВЫВОДИМ СПИСОК С НАЧАЛА
 	if (temp->x == NULL) { cout << "EMPTY"; }
@@ -67,21 +67,35 @@ void List::Show()
 	}
 	cout << "\n";
 }
+void List::Show1()
+{
 
+	Node *temp = Tail;
+	//ВЫВОДИМ СПИСОК С НАЧАЛА
+	if (temp->x == NULL) { cout << "EMPTY"; }
+	else {            //Временно указываем на адрес первого элемента
+		while (temp != NULL)                 //Пока не встретим пустое значение
+		{
+			cout << temp->x << " "; //Выводим каждое считанное значение на экран
+			temp = temp->Prev; //Смена адреса на адрес следующего элемента
+		}
+	}
+	cout << "\n";
+}
 
 void List::Find(int v)
 {
 
 	Node *temp = Head;
-	
-	
+
+
 	while (temp != NULL)
 	{
 		if (temp->x == v) { cout << "BUSTED"; break; }
 		else {
-		cout << temp->x << " "; 
-		temp = temp->Next;
-	} 
+			cout << temp->x << " ";
+			temp = temp->Next;
+		}
 	}
 	cout << "\n";
 }
@@ -97,7 +111,7 @@ void List::Delete(int rt)
 	int N = 1;
 	if (rt == 1) {
 		Head = temp->Next;
-	
+
 		delete temp;
 		temp = Head;
 		temp->Prev = NULL;
@@ -141,27 +155,32 @@ void List::Delete(int rt)
 
 void List::NPaste(int j, int shto)
 {
-	
 
+	Node *ROM;
 	Node *temp = Head;
 	Node *fert = new Node;
 	fert->x = shto;
-	
+
 	if (j == 1) {
-		fert->Next = Head;	     //показать, что Next shto - head;
+		//	ROM = Head;
+		Head->Prev = fert;
+		fert->Next = Head;	         //показать, что Next shto - head;
 		fert->Prev = NULL;		 //показать, что Prev shto - null
-		Head = fert; //headom стала shto
-		}
-	
+		Head = fert;		 //headom стала shto
+	}
+
 
 	if (j == 2) {
 		for (int i = 0; i < j; i++) {
-			
+
 
 			if (i == 0) {
 				fert->Next = temp->Next;
 				fert->Prev = temp;
 				temp->Next = fert;
+				temp = temp->Next;
+				temp = temp->Next;
+				temp->Prev = fert;
 			}
 			temp = temp->Next;
 
@@ -171,10 +190,13 @@ void List::NPaste(int j, int shto)
 		for (int i = 0; i < j - 1; i++) {
 			temp = temp->Next;
 
-			if (i == j - 3) {
+			if (i == j - 3) {				
 				fert->Next = temp->Next;
 				fert->Prev = temp;
 				temp->Next = fert;
+				temp = temp->Next;
+				temp = temp->Next;
+				temp->Prev = fert;
 			}
 
 		}
@@ -183,7 +205,7 @@ void List::NPaste(int j, int shto)
 
 
 
-	}
+}
 
 
 
@@ -206,10 +228,8 @@ int main(void) {
 
 	lst.NPaste(1, 111);
 	lst.Show();
-
-
-
+	lst.Show1();
 	cout << '\n';
 	system("pause");
-	
+
 }
