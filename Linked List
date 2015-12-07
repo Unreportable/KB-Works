@@ -1,0 +1,197 @@
+#include <iostream>
+
+
+using namespace std;
+struct Node       
+{
+	int x;    
+	Node *Next; 
+};
+
+class List   
+{
+	Node *Head, *Tail; 
+public:
+	List() :Head(NULL), Tail(NULL) {}; 
+	~List(); 
+	void Show(); 
+	void Find(int v);
+	void Add(int x);
+	void Delete(int rt);
+	void NPaste(int j, int shto);
+
+};
+
+
+List::~List() //Деструктор
+{
+	while (Head) //Пока по адресу на начало списка что-то есть
+	{
+		Tail = Head->Next; //Резервная копия адреса следующего звена списка
+		delete Head; //Очистка памяти от первого звена
+		Head = Tail; //Смена адреса начала на адрес следующего элемента
+	}
+}
+
+void List::Add(int x)
+{
+	Node *temp = new Node; //Выделение памяти под новый элемент структуры
+	temp->Next = NULL;  //Указываем, что изначально по следующему адресу пусто
+	temp->x = x;//Записываем значение в структуру
+
+	if (Head != NULL) //Если список не пуст
+	{
+		
+		Tail->Next = temp; 
+		Tail = temp; 
+	}
+	else //Если список пустой
+	{
+		Head = Tail = temp; //Голова=Хвост=тот элемент, что сейчас добавили
+	}
+}
+
+void List::Show()
+{
+
+	Node *temp = Head;
+	//ВЫВОДИМ СПИСОК С НАЧАЛА
+	if (temp->x == NULL) { cout << "EMPTY"; }
+	else {            //Временно указываем на адрес первого элемента
+		while (temp != NULL)                 //Пока не встретим пустое значение
+		{
+			cout << temp->x << " "; //Выводим каждое считанное значение на экран
+			temp = temp->Next; //Смена адреса на адрес следующего элемента
+		}
+	}
+	cout << "\n";
+}
+
+
+void List::Find(int v)
+{
+
+	Node *temp = Head;
+
+
+	while (temp != NULL)
+	{
+		if (temp->x == v) { cout << "BUSTED"; break; }
+		else {
+			cout << temp->x << " ";
+			temp = temp->Next;
+		}
+	}
+	cout << "\n";
+}
+
+
+void List::Delete(int rt){
+	Node *temp = Head;
+	Node *DNext;
+	int N = 1;
+	if (rt == 1) {
+		Head = temp->Next;
+		delete temp;
+		temp = Head;
+	}
+	if (rt > 1) {
+		while (temp != NULL)
+		{
+			if (temp != NULL) {
+				if (temp->Next == NULL) { delete temp; break; }
+				else {
+
+					if (N == rt) {
+						//DPrev = temp->Prev;
+						DNext = temp->Next;
+						delete temp;
+						temp->Next = DNext;
+						temp = temp->Next;						
+								 }
+					
+					temp = temp->Next;
+					N++;
+				}
+			}
+
+			else { break; }
+		}
+	}
+
+}
+
+void List::NPaste(int j, int shto)
+{
+
+
+	Node *temp = Head;
+	Node *fert = new Node;
+	fert->x = shto;
+
+	if (j == 1) {
+		fert->Next = Head;	     //показать, что Next shto - head;
+		
+		Head = fert; //headom стала shto
+	}
+
+
+	if (j == 2) {
+		for (int i = 0; i < j; i++) {
+
+
+			if (i == 0) {
+				fert->Next = temp->Next;
+				
+				temp->Next = fert;
+			}
+			temp = temp->Next;
+
+		}
+	}
+	if (j > 2) {
+		for (int i = 0; i < j - 1; i++) {
+			temp = temp->Next;
+
+			if (i == j - 3) {
+				fert->Next = temp->Next;
+			
+				temp->Next = fert;
+			}
+
+		}
+	}
+
+
+
+
+}
+
+
+
+
+int main(void) {
+
+
+	List lst;
+	lst.Add(7);
+	lst.Add(5);
+	lst.Add(6);
+	lst.Add(7);
+	lst.Add(3);
+	lst.Show();
+	lst.Find(7);
+
+	lst.Delete(1);
+	cout << '\n';
+	lst.Show();
+
+	lst.NPaste(1, 111);
+	lst.Show();
+
+
+
+	cout << '\n';
+	system("pause");
+
+}
