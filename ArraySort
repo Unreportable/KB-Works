@@ -1,0 +1,113 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+#include <time.h>
+#include <fstream>
+int i,j;
+
+
+void quick_sort(int* mass, int j);
+void check_mas(int* mass, int j);
+void generating(int *mass,int j);
+void show(int *mass,int k);
+void length();
+using namespace std;
+
+
+
+
+
+
+
+
+
+float n, l;
+int main()
+{setlocale(LC_ALL, "Russian");
+
+ifstream fin("cppstudio.txt");
+//ifstream lala;
+//lala.open("lala.txt");
+
+
+
+
+
+
+
+
+	length();
+	int *b = new int[i];
+	generating(b,i);
+	show(b, i);
+	n = clock() / 1000.0;
+	quick_sort(b, i - 1);
+	l = clock() / 1000.0;
+	show(b, i);
+	check_mas(b, i - 1);
+	cout << "runtime = " << l-n << endl;
+
+	system("pause");
+    return 0;
+}
+
+
+
+
+
+
+
+void quick_sort(int* mass, int j) // задается указатель на массив+его длина
+{
+	int size = j; // длина перезаписывается в size
+	int k = 0;
+	int c = mass[(int)(j / 2)]; //условное деление массива пополам
+	int tmp = 0; // переменная для обмена значений
+	do {
+		while (mass[k] < c)k++; //просмотр массива слева направо
+		while (mass[j] > c) j--; // просмотр справа налево
+		if (k <= j) { // нашли по обе стороны значения, 1 из которых больше, а второе меньше, поменяли их местами
+			tmp = mass[k];
+			mass[k] = mass[j];
+			mass[j] = tmp;
+			k++;
+			j--;
+		}
+	} while (k <= j);
+	if (j > 0)quick_sort(mass, j); // если j осталось больше нуля(массив разбился на 2 ненулевых) продолжаем быструю сортировку для двух других частей
+	if (size > k) quick_sort(mass + k, size - k);
+}
+
+void check_mas(int* mass, int j) {
+	int k = 0;
+	for (int i = 0; i < j-1; i++)
+		if (mass[i] <= mass[i + 1])
+			k++;
+	if (k+1 == j) { cout << "Сортировка верна\n"; }
+	else { cout << "боюсь, сортировка не сработала\n"; }
+}
+void generating(int *mass,int j) {
+	srand(time(NULL));
+	
+	for (int k = 0; k < j; k++)
+		mass[k] = -50 + rand() % 100;
+
+
+
+
+}
+void show(int *mass,int k) {
+
+	for (int j = 0; j < k; j++)
+		cout << mass[j] << " ";
+	cout << '\n';
+
+
+}
+void length() {
+	//int i;
+	cout << "Введите длину массива случайную генерацию которого хотите произвести: \n";
+	cin >> i;
+	cout << '\n';
+
+}
