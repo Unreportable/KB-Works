@@ -1,0 +1,144 @@
+#include "iostream"
+
+using namespace std;
+
+
+int main()
+{
+
+	cout << "STROKAxSTOLBEC";
+	int i, j;
+	cin >> i;
+	cin >> j;
+
+
+
+	int **puf = new int*[i];
+	for (int count = 0; count < i; count++)
+		puf[count] = new int[j];
+	cout << "zapolnyai massiv";
+	for (int n = 0; n < i; n++)
+		for (int m = 0; m < j; m++)
+			cin >> puf[n][m];
+
+
+	cout << "VOT 4TO EST':'\n";
+	//cout << "VOT 4TO Y MENYA POLUCHILOS:";
+	for (int n = 0; n < i; n++)
+	{
+		for (int m = 0; m < j; m++)
+			cout << puf[n][m] << " ";
+		cout << '\n';
+	}
+
+	cout << "VOT 4TO MOZHNO SDELAT':\n1) MINIMALNIY (+) ELEMNT!\n2) ELEMENT PO INDEXY\n 3)MENYAU UKAZANNIE STROKI!\n 4) menyau perviy i posledni STOLBEZ!\n5) XO4ESH' SBEZHAT'?\n";
+
+
+	cout << "PORA VIBIRAT' 4to sdelaesh!\n";
+	int CIFRA;
+	for (;;){
+	cin >> CIFRA;
+	switch (CIFRA) {
+
+	case 1: {
+		int min = puf[0][0], z=0, x=0;
+		for (int n = 0; n < i; n++)
+			for (int m = 0; m < j; m++)
+				if (puf[n][m] < min && puf[n][m]>0) { x = n+1; z = m+1; }
+		cout << "STROKA-STOLBEC: " << x << "-" << z << '\n';
+		break;
+	}
+	case 2: {
+		cout << "VVEDI INDEX\n";
+		int ind1, ind2;
+		cin >> ind1 >> ind2;
+		cout << "ISKOMIY ELEMENT: " << puf[ind1 - 1][ind2 - 1] << '\n';
+
+
+
+
+
+		break;
+	}
+	case 3: {
+		//меняй строки
+		cout << "YKAZIVAY STROKI!\n";
+		int str1, str2;
+		cin >> str1 >> str2;
+		int b=j;
+		int	*vasya = new int[b];
+		for (int n = 0; n < j; n++)
+		{
+			vasya[n] = puf[str1 - 1][n];
+			//for (int n = 0; n < j; n++)
+			puf[str1 - 1][n] = puf[str2 - 1][n];
+			//for (int n = 0; n < j; n++)
+			puf[str2 - 1][n] = vasya[n];
+		}
+
+
+		cout << "VOT 4TO Y MENYA POLUCHILOS:\n";
+		for (int n = 0; n < i; n++)
+		{
+			for (int m = 0; m < j; m++)
+				cout << puf[n][m] << " ";
+			cout << '\n';
+		}
+
+
+
+		break;
+	}
+	case 4: {
+		//меняй столбцы первый и последний
+
+		cout << "YA BYDY MENYAT'! GTOVSYA!\n";
+
+		int	*mila = new int[i];
+		for (int n = 0; n < i; n++)
+		{
+			mila[n] = puf[n][0];
+
+			puf[n][0] = puf[n][j-1];
+
+			puf[n][j-1] = mila[n];
+		}
+
+
+		cout << "VOT 4TO Y MENYA POLUCHILOS:\n";
+		for (int n = 0; n < i; n++)
+		{
+			for (int m = 0; m < j; m++)
+				cout << puf[n][m] << " ";
+			cout << '\n';
+		}
+
+
+
+
+
+		break;
+	}
+
+	case 5: {break; }
+
+
+
+
+
+
+
+	default: {cout << "OLLIbibka!\n"; }
+	}
+	if (CIFRA == 5) {
+		break;
+	}
+	cout << "PORA VIBIRAT' OPYAT'!\n";
+}
+
+
+
+
+	system("pause");
+    return 0;
+}
