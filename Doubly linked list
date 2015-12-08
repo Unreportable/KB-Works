@@ -57,12 +57,15 @@ void List::Show()
 
 	Node *temp = Head;
 	//ВЫВОДИМ СПИСОК С НАЧАЛА
-	if (temp->x == NULL) { cout << "EMPTY"; }
+	if (Head == NULL) { cout << "EMPTY"; }
 	else {            //Временно указываем на адрес первого элемента
 		while (temp != NULL)                 //Пока не встретим пустое значение
 		{
-			cout << temp->x << " "; //Выводим каждое считанное значение на экран
-			temp = temp->Next; //Смена адреса на адрес следующего элемента
+			if (temp == Head && temp == Tail) { cout << temp->x << " "; break; }
+			else {
+				cout << temp->x << " "; //Выводим каждое считанное значение на экран
+				temp = temp->Next; //Смена адреса на адрес следующего элемента
+			}
 		}
 	}
 	cout << "\n";
@@ -71,13 +74,17 @@ void List::Show1()
 {
 
 	Node *temp = Tail;
-	//ВЫВОДИМ СПИСОК С НАЧАЛА
-	if (temp->x == NULL) { cout << "EMPTY"; }
+	//ВЫВОДИМ СПИСОК С konca
+	if (Tail == NULL) { cout << "EMPTY"; }
 	else {            //Временно указываем на адрес первого элемента
 		while (temp != NULL)                 //Пока не встретим пустое значение
 		{
-			cout << temp->x << " "; //Выводим каждое считанное значение на экран
-			temp = temp->Prev; //Смена адреса на адрес следующего элемента
+			if (temp == Head && temp == Tail) { cout << temp->x << " "; break; }
+			else {
+
+				cout << temp->x << " "; //Выводим каждое считанное значение на экран
+				temp = temp->Prev; //Смена адреса на адрес следующего элемента
+			}
 		}
 	}
 	cout << "\n";
@@ -103,12 +110,12 @@ void List::Find(int v)
 
 void List::Delete(int rt)
 {
-
+	Node *VTail;
 	Node *DPrev;
 	Node *temp = Head;
 	Node *DNext;
-
-	int N = 1;
+	int k = 0;
+	int N = 1; //жобавь для 1 элемента
 	if (rt == 1) {
 		Head = temp->Next;
 
@@ -119,100 +126,120 @@ void List::Delete(int rt)
 
 	}
 	if (rt > 1) {
-		while (temp != NULL)
-		{
-			if (temp != NULL) {
-				if (temp->Prev == NULL && temp->Next == NULL) { delete temp; break; }
-				else {
-
-					if (N == rt) {
-						DPrev = temp->Prev;
-						DNext = temp->Next;
-						delete temp;
-
-						temp = DPrev;
-						temp->Next = DNext;
-
-
-						//
-						temp = temp->Next;
-						temp->Prev = DPrev;
-						temp = temp->Prev;
-
-
-					}
-					//	cout << temp->x << " ";
-					temp = temp->Next;
-					N++;
-				}
-			}
-
-			else { break; }
-		}
+		for (int i = 0; i < rt-1; i++) {
+			temp = temp->Next;
 	}
+		if (temp->Next == Tail) {
+			delete Tail;
+			temp->Next = NULL;
+			Head = Tail = temp;
 
+		}
+		if(temp->Next!=NULL) {
+			DPrev = temp->Prev;
+			DNext = temp->Next;
+			delete temp;
+			temp = DPrev;
+			temp->Next = DNext;
+			temp = temp->Next;
+			temp->Prev = DPrev;
+	}
+		if (temp->Next == NULL) {
+			VTail = Tail->Prev;
+			delete Tail;
+			Tail = VTail;
+			Tail->Next = NULL;
+
+
+
+
+		}
+
+
+
+
+
+
+
+
+	}
 }
 
 void List::NPaste(int j, int shto)
 {
-
-	Node *ROM;
-	Node *temp = Head;
-	Node *fert = new Node;
-	fert->x = shto;
-
-	if (j == 1) {
-		//	ROM = Head;
-		Head->Prev = fert;
-		fert->Next = Head;	         //показать, что Next shto - head;
-		fert->Prev = NULL;		 //показать, что Prev shto - null
-		Head = fert;		 //headom стала shto
+	int N = 1;
+	Node *star = Head;
+	Node *temp = new Node;
+	temp->x = shto;
+	if (Head == NULL && Tail == NULL) {
+		temp->Next = NULL;
+		Head = Tail = temp;
 	}
+	else {
+		if (j == 1) {
+			star->Prev = temp;
+			temp->Next = star;
+			Head = temp;
+			temp->Prev = NULL;
 
-
-	if (j == 2) {
-		for (int i = 0; i < j; i++) {
-
-
-			if (i == 0) {
-				fert->Next = temp->Next;
-				fert->Prev = temp;
-				temp->Next = fert;
-				temp = temp->Next;
-				temp = temp->Next;
-				temp->Prev = fert;
-			}
-			temp = temp->Next;
 
 		}
-	}
-	if (j > 2) {
-		for (int i = 0; i < j - 1; i++) {
-			temp = temp->Next;
 
-			if (i == j - 3) {				
-				fert->Next = temp->Next;
-				fert->Prev = temp;
-				temp->Next = fert;
-				temp = temp->Next;
-				temp = temp->Next;
-				temp->Prev = fert;
+		if (j == 2) {
+			if (star->Next != Tail) {
+				temp->Prev = star;
+				temp->Next = star->Next;
+				star->Next = temp;
+				star = star->Next;
+				star = temp;
+				star = star->Next;
+				star->Prev = temp;
 			}
+			else {
 
+				temp->Prev = Head;
+				temp->Next = Tail;
+				Tail->Prev = temp;
+				Head->Next = temp;
+					Head->Prev = NULL;
+					Tail->Next = NULL;
+
+			}
 		}
+
+
+
+
+
+
+
+			if (j > 2){
+				for (int i = 0; i < j - 2; i++)
+					star = star->Next;
+			if (star->Next != 0) {
+				temp->Next = star->Next;
+				temp->Prev = star;
+				star->Next = temp;
+				star = star->Next;
+				star = temp;
+				star = star->Next;
+				star->Prev = temp;
+			}
+			else {
+				temp->Next = NULL;
+				temp->Prev = Tail;
+				Tail->Next = temp;
+				Tail = temp;
+			}
+			}
+		
+
+
 	}
-
-
-
-
 }
 
 
-
-
 int main(void) {
-
-
 	List lst;
 	lst.Add(7);
 	lst.Add(5);
@@ -220,13 +247,14 @@ int main(void) {
 	lst.Add(7);
 	lst.Add(3);
 	lst.Show();
-	lst.Find(7);
+//	lst.Find(7);
+	lst.Delete(5);
+	//lst.Show();
 
-	lst.Delete(1);
+	lst.NPaste(2, 111);
+	
+
 	cout << '\n';
-	lst.Show();
-
-	lst.NPaste(1, 111);
 	lst.Show();
 	lst.Show1();
 	cout << '\n';
