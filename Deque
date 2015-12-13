@@ -87,41 +87,10 @@ void List::Find(int v)
 	}
 	cout << "\n";
 }
-
-
 void List::DeleteR()
 {
 	Node *star = Head;
-	if (Head ==NULL && Tail == NULL) { cout << "nothing to do here\n"; }
-	else {
-		if (Head == Tail != NULL) {
-		delete star;
-		Tail = NULL;
-		Head = NULL;
-		cout << "teper' pystoti\n";
-		}
-		else {
-			if (Head->Next != Tail && Head->Next != NULL) {
-				for (;;) {
-					if (star->Next != NULL) { star = star->Next; }
-
-					else { break; }
-				}
-					Tail = star->Prev;
-					delete star;
-					star = Tail;
-					Tail->Next = NULL;
-
-				}
-			}
-		}
-	}
-
-
-void List::DeleteL()
-{
-	Node *star = Head;
-	if (Head ==NULL && Tail == NULL) { cout << "nothing to do here\n"; }
+	if (Head == NULL && Tail == NULL) { cout << "nothing to do here\n"; }
 	else {
 		if (Head == Tail != NULL) {
 			delete star;
@@ -131,17 +100,65 @@ void List::DeleteL()
 		}
 		else {
 			if (Head->Next != Tail && Head->Next != NULL) {
-				
+				for (;;) {
+					if (star->Next != NULL) { star = star->Next; }
+
+					else { break; }
+				}
+				Tail = star->Prev;
+				delete star;
+				star = Tail;
+				Tail->Next = NULL;
+
+			}
+			else {
+				if (Head->Next == Tail) {
+					delete Tail;
+					Tail = Head;
+					Tail->Next = NULL;
+					Head->Prev = NULL;
+			
+				}			
+			}
+		}
+
+	}
+}
+
+
+void List::DeleteL()
+{
+	Node *star = Head;
+	if (Head == NULL && Tail == NULL) { cout << "nothing to do here\n"; }
+	else {
+		if (Head == Tail != NULL) {
+			delete star;
+			Tail = NULL;
+			Head = NULL;
+			cout << "teper' pystoti\n";
+		}
+		else {
+			if (Head->Next != Tail && Head->Next != NULL) {
+
 				Head = star->Next;
 				delete star;
 				star = Head;
 				Head->Prev = NULL;
 
 
+			}
+			else {
+				if (Head->Next == Tail) {
+					delete Tail;
+					Tail = Head;
+					Tail->Next = NULL;
+					Head->Prev = NULL;
+
 				}
 			}
 		}
 	}
+}
 
 void List::PasteLeft(int b)
 {
@@ -164,8 +181,8 @@ void List::PasteLeft(int b)
 			star->Next = FG;
 			star = star->Next;
 			Head->Prev = NULL;
-		
-		
+
+
 		}
 
 	}
@@ -184,7 +201,7 @@ void List::PasteRight(int y)
 		Head = temp;
 		Tail->Next = NULL;
 		Head->Prev = NULL;
-		
+
 	}
 	else {
 
@@ -206,17 +223,23 @@ void List::PasteRight(int y)
 
 int main(void) {
 	List Deque;
-		Deque.PasteLeft(1);
-		Deque.PasteLeft(2);
-		Deque.PasteLeft(3);
-		Deque.PasteRight(7);
-		Deque.PasteRight(8);
-		Deque.PasteRight(9);
-		cout << '\n';
-		Deque.DeleteR();
-		Deque.DeleteL();
-		Deque.Show();
-		Deque.Show1();
+	Deque.PasteLeft(1);
+	Deque.PasteLeft(2);
+	Deque.PasteLeft(3);
+	Deque.PasteRight(7);
+	Deque.PasteRight(8);
+	Deque.PasteRight(9);
+	cout << '\n';
+	Deque.DeleteL();
+	Deque.DeleteL();
+	Deque.DeleteL();
+	Deque.DeleteL();
+	Deque.DeleteL();
+	Deque.DeleteL();
+	Deque.DeleteL();
+	//Deque.DeleteL();
+	Deque.Show();
+	Deque.Show1();
 	system("pause");
 
 }
