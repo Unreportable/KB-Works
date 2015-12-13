@@ -2,21 +2,21 @@
 
 
 using namespace std;
-struct Node       
+struct Node
 {
-	int x;    
-	Node *Next; 
+	int x;
+	Node *Next;
 };
 
-class List   
+class List
 {
-	Node *Head, *Tail; 
+	Node *Head, *Tail;
 public:
-	List() :Head(NULL), Tail(NULL) {}; 
-	~List(); 
-	void Show(); 
+	List() :Head(NULL), Tail(NULL) {};
+	~List(); //Деструктор
+	void Show(); //Функция отображения списка на экране
 	void Find(int v);
-	void Add(int x);
+
 	void Delete(int rt);
 	void NPaste(int j, int shto);
 
@@ -33,35 +33,22 @@ List::~List() //Деструктор
 	}
 }
 
-void List::Add(int x)
-{
-	Node *temp = new Node; //Выделение памяти под новый элемент структуры
-	temp->Next = NULL;  //Указываем, что изначально по следующему адресу пусто
-	temp->x = x;//Записываем значение в структуру
-
-	if (Head != NULL) //Если список не пуст
-	{
-		
-		Tail->Next = temp; 
-		Tail = temp; 
-	}
-	else //Если список пустой
-	{
-		Head = Tail = temp; //Голова=Хвост=тот элемент, что сейчас добавили
-	}
-}
-
 void List::Show()
 {
 
 	Node *temp = Head;
 	//ВЫВОДИМ СПИСОК С НАЧАЛА
-	if (temp->x == NULL) { cout << "EMPTY"; }
+	if (Head == NULL) { cout << "EMPTY"; }
 	else {            //Временно указываем на адрес первого элемента
 		while (temp != NULL)                 //Пока не встретим пустое значение
 		{
-			cout << temp->x << " "; //Выводим каждое считанное значение на экран
-			temp = temp->Next; //Смена адреса на адрес следующего элемента
+			
+			if (temp == Head && temp == Tail) { cout << temp->x << " "; break; }
+			else {
+				cout << temp->x << " "; //Выводим каждое считанное значение на экран
+				temp = temp->Next; //Смена адреса на адрес следующего элемента
+				
+			}  
 		}
 	}
 	cout << "\n";
@@ -86,110 +73,149 @@ void List::Find(int v)
 }
 
 
-void List::Delete(int rt){
+void List::Delete(int rt)
+{
+
+	
 	Node *temp = Head;
 	Node *DNext;
-	int N = 1;
+	Node *Dzam = NULL;
+	int k = 0;
+	int N = 1; //жобавь для 1 элемента
 	if (rt == 1) {
-		Head = temp->Next;
-		delete temp;
-		temp = Head;
+		if (Head != NULL && Head->Next != NULL) {
+			Head = temp->Next;
+
+			delete temp;
+			temp = Head;
+		}
+		if (Head != NULL && Head->Next == NULL) { delete temp;
+		Head = Tail = NULL;
+		}
+
 	}
 	if (rt > 1) {
-		while (temp != NULL)
-		{
-			if (temp != NULL) {
-				if (temp->Next == NULL) { delete temp; break; }
-				else {
+		for (int i = 0; i < rt - 1; i++) {
+		if (i == rt - 2) { Dzam = temp; }
+			temp = temp->Next;
+			
 
-					if (N == rt) {
-						//DPrev = temp->Prev;
-						DNext = temp->Next;
-						delete temp;
-						temp->Next = DNext;
-						temp = temp->Next;						
-								 }
-					
-					temp = temp->Next;
-					N++;
-				}
-			}
 
-			else { break; }
+		}
+		if (temp->Next == Tail) {
+			delete Tail;
+			temp->Next = NULL;
+			Head = Tail = temp;
+
+		}
+		if (temp->Next != NULL && temp->Next!=Tail) {
+			DNext = temp->Next;
+			delete temp;
+			temp = Dzam;
+			temp->Next = DNext;
+
+		}
+		if (temp->Next == NULL) {
+
+			delete Tail;
+			Tail->Next = NULL;
+			temp = Dzam;
+			temp->Next = NULL;
 		}
 	}
-
 }
 
 void List::NPaste(int j, int shto)
 {
-
-
-	Node *temp = Head;
-	Node *fert = new Node;
-	fert->x = shto;
-
-	if (j == 1) {
-		fert->Next = Head;	     //показать, что Next shto - head;
-		
-		Head = fert; //headom стала shto
+	int N = 1;
+	Node *FutData = NULL;
+	Node *JData = NULL;
+	Node *star = Head;
+	Node *temp = new Node;
+	temp->x = shto;
+	if (Head == NULL && Tail == NULL) {
+		temp->Next = NULL;
+		Head = Tail = temp;
 	}
+	else {
+		if (j == 1) {
+
+			temp->Next = star;
+			Head = temp;
+			Head->Next = star;
 
 
-	if (j == 2) {
-		for (int i = 0; i < j; i++) {
-
-
-			if (i == 0) {
-				fert->Next = temp->Next;
-				
-				temp->Next = fert;
-			}
-			temp = temp->Next;
 
 		}
-	}
-	if (j > 2) {
-		for (int i = 0; i < j - 1; i++) {
-			temp = temp->Next;
 
-			if (i == j - 3) {
-				fert->Next = temp->Next;
-			
-				temp->Next = fert;
+		if (j == 2) {
+			if (star->Next != NULL) { //стандартная вставка во второй элемент, когда есть и слева и справа
+JData = star; //первый элемент
+star=star->Next;//переходим во второй
+FutData = star; // запомнили  original второго
+star = JData;
+star->Next = temp;
+star = star->Next;
+star->Next = FutData;
+
 			}
+			else { //для вставки во второй, но у тебя всего 1!
+				Tail=Head = star;
+				Head->Next = temp;
+				star->Next = temp;
+				star = star->Next;
+				Tail = star;
+				Tail->Next = NULL;
+				star->Next = NULL;
 
+			}
 		}
+
+
+		if (j > 2) {
+			for (int i = 0; i < j - 2; i++)
+				star = star->Next;
+			if (star->Next != 0) {
+				temp->Next = star->Next;
+
+				star->Next = temp;
+				star = star->Next;
+				star = temp;
+				star = star->Next;
+
+			}
+			else {
+				temp->Next = NULL;
+
+				Tail->Next = temp;
+				Tail = temp;
+			}
+		}
+
+
+
 	}
-
-
-
-
 }
 
 
-
-
 int main(void) {
-
-
 	List lst;
-	lst.Add(7);
-	lst.Add(5);
-	lst.Add(6);
-	lst.Add(7);
-	lst.Add(3);
+	lst.NPaste(1, 11);
+	lst.NPaste(2, 22);
+	
+	lst.NPaste(3, 33);
+lst.NPaste(4, 44);
+	lst.NPaste(2, 313);
 	lst.Show();
 	lst.Find(7);
+	lst.Delete(5);
+	lst.Show();
 
-	lst.Delete(1);
+lst.NPaste(2, 111);
+
+
 	cout << '\n';
 	lst.Show();
-
-	lst.NPaste(1, 111);
-	lst.Show();
-
-
 
 	cout << '\n';
 	system("pause");
