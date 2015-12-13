@@ -224,19 +224,14 @@ void List::PasteRight(int y)
 int main(void) {
 	List Deque;
 	Deque.PasteLeft(1);
-	Deque.PasteLeft(2);
-	Deque.PasteLeft(3);
-	Deque.PasteRight(7);
-	Deque.PasteRight(8);
-	Deque.PasteRight(9);
+	Deque.PasteRight(2);
+
+
+
+
 	cout << '\n';
 	Deque.DeleteL();
-	Deque.DeleteL();
-	Deque.DeleteL();
-	Deque.DeleteL();
-	Deque.DeleteL();
-	Deque.DeleteL();
-	Deque.DeleteL();
+	
 	//Deque.DeleteL();
 	Deque.Show();
 	Deque.Show1();
