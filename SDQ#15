@@ -1,0 +1,237 @@
+#include <iostream>
+
+
+using namespace std;
+struct Node
+{
+	int x;
+	Node *Next;
+};
+
+class List
+{
+	Node *Head, *Tail;
+public:
+	List() :Head(NULL), Tail(NULL) {};
+	~List(); //Деструктор
+	void Show(); //Функция отображения списка на экране
+
+	void zamena();
+	void Delete(int rt);
+	void NPaste(int shto);
+
+};
+
+
+List::~List() //Деструктор
+{
+	while (Head) //Пока по адресу на начало списка что-то есть
+	{
+		Tail = Head->Next; //Резервная копия адреса следующего звена списка
+		delete Head; //Очистка памяти от первого звена
+		Head = Tail; //Смена адреса начала на адрес следующего элемента
+	}
+}
+
+void List::Show()
+{
+
+	Node *temp = Head;
+	//ВЫВОДИМ СПИСОК С НАЧАЛА
+	if (Head == NULL) { cout << "EMPTY"; }
+	else {            //Временно указываем на адрес первого элемента
+		while (temp != NULL)                 //Пока не встретим пустое значение
+		{
+
+			if (temp == Head && temp == Tail) { cout << temp->x << " "; break; }
+			else {
+				cout << temp->x << " "; //Выводим каждое считанное значение на экран
+				temp = temp->Next; //Смена адреса на адрес следующего элемента
+
+			}
+		}
+	}
+	cout << "\n";
+}
+
+
+
+void List::Delete(int rt)
+{
+
+	Node *FYPrev = NULL;
+	Node *star = Head;
+	Node *DNext = NULL;
+	Node *Dzam = NULL;
+	int k = 0;
+	int N = 1;
+	if (Head == NULL && Tail == NULL) { cout << "EMPTY STACK"; }
+	else {
+		if (star->Next == Tail) {
+			DNext = star;
+			star = star->Next;
+			delete star;
+			star = DNext;
+			Head = Tail = star;
+			star->Next = NULL;
+			Tail->Next = NULL;
+
+
+		}
+		else {
+			if (Head->Next != Tail && Head->Next != NULL) {
+
+				//while (star != NULL && star != Tail) { star = star->Next; }
+
+				for (;;) {
+					if (star->Next == Tail) { FYPrev = star; }
+
+
+					if (star->Next != NULL) { star = star->Next; }
+					else { break; }
+				}
+
+
+				delete star;
+				star = FYPrev;
+				Tail = star;
+				Tail->Next = NULL;
+			}
+			else {
+				if (star == Head && star == Tail) {
+
+					delete star;
+					Head = NULL;
+					Tail = NULL;
+					cout << "tyt teper' pystota!";
+
+
+
+				}
+
+
+			}
+		}
+	}
+}
+
+
+
+
+
+
+void List::NPaste(int shto)
+{
+	int N = 1;
+	Node *FutData = NULL;
+	Node *JData = NULL;
+	Node *star = Head;
+	Node *temp = new Node;
+	temp->x = shto;
+
+	if (Head == NULL && Tail == NULL) { Head = Tail = star = temp; }
+	if (star->Next == Tail) {
+		star = star->Next;
+		star->Next = temp;
+		Tail = temp;
+		temp->Next = NULL;
+		Tail->Next = NULL;
+	}
+	if (Head->Next != Tail && Head->Next != NULL) {
+
+		while (star != NULL && star != Tail) { star = star->Next; }
+		star->Next = temp;
+		Tail = temp;
+		temp->Next = NULL;
+		Tail->Next = NULL;
+
+
+
+	}
+
+	if (star == Head && star == Tail) {
+		star->Next = temp; Tail = temp;
+		Tail->Next = NULL;
+	}
+}
+
+void List::zamena()
+{
+	Node *temp = Head;
+	int k = 0;
+	int c = 0;
+	int j = 0;
+	while (temp->Next != NULL) { k++; temp = temp->Next; }
+	int max = 0;
+	cout << k << '\n';
+	int *mas = new int[k];
+	int *mas1 = new int[k];
+	temp = Head;
+	while (temp!= NULL) { 
+	
+	mas[c] = temp->x;
+	c++;
+	temp = temp->Next;
+	}
+	//for (int y = 0; y < c; y++)cout << mas[y] << " ";
+//	cout << '\n';
+	for (int i = 0; i < k; i++) {
+		for (int j = i; j < k+1; j++)
+		{
+
+			if (mas[i] < mas[j]) { mas1[i] = mas[j];  break; }
+			else {
+				if (j == k - 1 && mas[i]>= mas[j]) { mas1[i] = 0;  }
+				
+
+
+
+
+			}
+		}
+	}
+	cout << '\n';
+	temp = Head;
+	int ty = 0;
+	while (temp!= NULL) {
+			temp->x = mas1[ty];
+			ty++;
+			temp = temp->Next;
+
+	}
+	
+	Tail->x=0;
+
+		}
+int main(void) {
+	List Stack;
+
+//1 3 2 5 3 4 otvet= 3 5 5 0 4 0  
+//
+
+
+	Stack.NPaste(1);
+	Stack.NPaste(3);
+	Stack.NPaste(2);
+	Stack.NPaste(5);
+	Stack.NPaste(3);
+	Stack.NPaste(4);
+	Stack.Show();
+
+
+	/*
+	Stack.NPaste(5);
+	Stack.NPaste(7);
+	Stack.NPaste(8);
+	Stack.NPaste(3);
+	Stack.NPaste(9);*/
+
+cout << '\n';
+
+Stack.zamena();
+Stack.Show();
+
+	cout << '\n';
+	system("pause");
+
+}
