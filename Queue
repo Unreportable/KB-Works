@@ -1,0 +1,167 @@
+#include <iostream>
+
+
+using namespace std;
+struct Node       //Структура являющаяся звеном списка
+{
+	int x;     //Значение x будет передаваться в список
+	Node *Next, *Prev; //Указатели на адреса следующего и предыдущего элементов списка
+};
+
+class List   //Создаем тип данных Список
+{
+	Node *Head, *Tail; //Указатели на адреса начала списка и его конца
+public:
+	List() :Head(NULL), Tail(NULL) {}; //Инициализируем адреса как пустые
+	~List(); //Деструктор
+	void Show(); //Функция отображения списка на экране
+	void Find(int v);
+	void Show1();
+	
+	void DeleteL();
+	
+	void PasteRight(int y);
+};
+
+
+List::~List() //Деструктор
+{
+	while (Head) //Пока по адресу на начало списка что-то есть
+	{
+		Tail = Head->Next; //Резервная копия адреса следующего звена списка
+		delete Head; //Очистка памяти от первого звена
+		Head = Tail; //Смена адреса начала на адрес следующего элемента
+	}
+}
+
+
+void List::Show()
+{
+
+	Node *temp = Head;
+	//ВЫВОДИМ СПИСОК С НАЧАЛА
+	if (Head == NULL) { cout << "EMPTY"; }
+	else {            //Временно указываем на адрес первого элемента
+		while (temp != NULL)                 //Пока не встретим пустое значение
+		{
+			if (temp == Head && temp == Tail) { cout << temp->x << " "; break; }
+			else {
+				cout << temp->x << " "; //Выводим каждое считанное значение на экран
+				temp = temp->Next; //Смена адреса на адрес следующего элемента
+			}
+		}
+	}
+	cout << "\n";
+}
+void List::Show1()
+{
+
+	Node *temp = Tail;
+	//ВЫВОДИМ СПИСОК С konca
+	if (Tail == NULL) { cout << "EMPTY"; }
+	else {            //Временно указываем на адрес первого элемента
+		while (temp != NULL)                 //Пока не встретим пустое значение
+		{
+			if (temp == Head && temp == Tail) { cout << temp->x << " "; break; }
+			else {
+
+				cout << temp->x << " "; //Выводим каждое считанное значение на экран
+				temp = temp->Prev; //Смена адреса на адрес следующего элемента
+			}
+		}
+	}
+	cout << "\n";
+}
+
+void List::Find(int v)
+{
+
+	Node *temp = Head;
+
+
+	while (temp != NULL)
+	{
+		if (temp->x == v) { cout << "BUSTED"; break; }
+		else {
+			cout << temp->x << " ";
+			temp = temp->Next;
+		}
+	}
+	cout << "\n";
+}
+
+
+
+void List::DeleteL()
+{
+	Node *star = Head;
+	if (Head == NULL && Tail == NULL) { cout << "nothing to do here\n"; }
+	else {
+		if (Head == Tail != NULL) {
+			delete star;
+			Tail = NULL;
+			Head = NULL;
+			cout << "teper' pystoti\n";
+		}
+		else {
+			if (Head->Next != Tail && Head->Next != NULL) {
+
+				Head = star->Next;
+				delete star;
+				star = Head;
+				Head->Prev = NULL;
+
+
+			}
+		}
+	}
+}
+
+
+void List::PasteRight(int y)
+{
+	Node *temp = new Node;
+	temp->x = y;
+	Node *star = Tail;
+
+
+	if (Head == NULL && Tail == NULL) {
+		Tail = temp;
+		Head = temp;
+		Tail->Next = NULL;
+		Head->Prev = NULL;
+
+	}
+	else {
+
+		if (Head != NULL)
+		{
+
+			star->Next = temp;
+			temp->Prev = star;
+			Tail = temp;
+			temp->Next = NULL;
+			Tail->Next = NULL;
+
+
+		}
+
+	}
+}
+
+
+int main(void) {
+	List Deque;
+	
+	Deque.PasteRight(7);
+	Deque.PasteRight(8);
+	Deque.PasteRight(9);
+	cout << '\n';
+	Deque.Show();
+	Deque.Show1();
+	Deque.DeleteL();
+	Deque.Show();
+	Deque.Show1();
+	system("pause");
+
+}
