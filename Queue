@@ -103,7 +103,14 @@ void List::DeleteL()
 			Head = NULL;
 			cout << "teper' pystoti\n";
 		}
-		else {
+		else {if(Head->Next==Tail){
+		delete star;
+		Head=Tail;
+		Head->Prev=NULL;
+		Tail->Next=NULL;
+		
+		
+		}else{
 			if (Head->Next != Tail && Head->Next != NULL) {
 
 				Head = star->Next;
@@ -114,6 +121,7 @@ void List::DeleteL()
 
 			}
 		}
+	}
 	}
 }
 
