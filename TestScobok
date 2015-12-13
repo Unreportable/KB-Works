@@ -1,0 +1,202 @@
+#include <iostream>
+#include <fstream>
+
+
+using namespace std;
+struct Node
+{
+	int x;
+	Node *Next;
+};
+
+class List
+{
+	Node *Head, *Tail;
+public:
+	List() :Head(NULL), Tail(NULL) {};
+	~List(); //Деструктор
+	void Show(); //Функция отображения списка на экране
+	int check();
+	void Check();
+	void Delete(int rt);
+	void NPaste(int shto);
+
+};
+
+
+List::~List() //Деструктор
+{
+	while (Head) //Пока по адресу на начало списка что-то есть
+	{
+		Tail = Head->Next; //Резервная копия адреса следующего звена списка
+		delete Head; //Очистка памяти от первого звена
+		Head = Tail; //Смена адреса начала на адрес следующего элемента
+	}
+}
+
+void List::Show()
+{
+
+	Node *temp = Head;
+	//ВЫВОДИМ СПИСОК С НАЧАЛА
+	if (Head == NULL) {/* cout << "EMPTY";*/ }
+	else {            //Временно указываем на адрес первого элемента
+		while (temp != NULL)                 //Пока не встретим пустое значение
+		{
+
+			if (temp == Head && temp == Tail) { cout << temp->x << " "; break; }
+			else {
+				cout << temp->x << " "; //Выводим каждое считанное значение на экран
+				temp = temp->Next; //Смена адреса на адрес следующего элемента
+
+			}
+		}
+	}
+	cout << "\n";
+}
+
+
+
+void List::Delete(int rt)
+{
+
+	Node *FYPrev = NULL;
+	Node *star = Head;
+	Node *DNext = NULL;
+	Node *Dzam = NULL;
+	int k = 0;
+	int N = 1;
+	if (Head == NULL && Tail == NULL) {/* cout << "EMPTY STACK";*/ }
+	else {
+		if (star->Next == Tail) {
+			DNext = star;
+			star = star->Next;
+			delete star;
+			star = DNext;
+			Head = Tail = star;
+			star->Next = NULL;
+			Tail->Next = NULL;
+
+
+		}
+		else {
+			if (Head->Next != Tail && Head->Next != NULL) {
+
+				//while (star != NULL && star != Tail) { star = star->Next; }
+
+				for (;;) {
+					if (star->Next == Tail) { FYPrev = star; }
+
+
+					if (star->Next != NULL) { star = star->Next; }
+					else { break; }
+				}
+
+
+				delete star;
+				star = FYPrev;
+				Tail = star;
+				Tail->Next = NULL;
+			}
+			else {
+				if (star == Head && star == Tail) {
+
+					delete star;
+					Head = NULL;
+					Tail = NULL;
+					//cout << "tyt teper' pystota!";
+
+
+
+				}
+
+
+			}
+		}
+	}
+}
+
+
+void List::NPaste(int shto)
+{
+	int N = 1;
+	Node *FutData = NULL;
+	Node *JData = NULL;
+	Node *star = Head;
+	Node *temp = new Node;
+	temp->x = shto;
+
+	if (Head == NULL && Tail == NULL) { Head = Tail = star = temp; }
+	if (star->Next == Tail) {
+		star = star->Next;
+		star->Next = temp;
+		Tail = temp;
+		temp->Next = NULL;
+		Tail->Next = NULL;
+	}
+	if (Head->Next != Tail && Head->Next != NULL) {
+
+		while (star != NULL && star != Tail) { star = star->Next; }
+		star->Next = temp;
+		Tail = temp;
+		temp->Next = NULL;
+		Tail->Next = NULL;
+
+
+
+	}
+
+	if (star == Head && star == Tail) {
+		star->Next = temp; Tail = temp;
+		Tail->Next = NULL;
+	}
+}
+
+int List::check() {
+
+	if (Tail == NULL && Head == NULL ) {
+		/*cout << "VOT TYT NI4EGO NET";*/ return 0;
+	}
+	else {/* cout << "4to to est'!";*/ return 1; }
+
+	
+}
+
+
+
+int main(void) {
+	List Stack;
+	char huuh[] = ")";
+	char huh[] = "(";
+	int c = 0;
+	char buff[100]; // буфер промежуточного хранения считываемого из файла текста
+	ifstream fin("C:\\Users\\Asus\\Desktop\\lala.txt"); // открыли файл для чтения
+	
+
+	fin.getline(buff, 100); // считали строку из файла
+	fin.close();
+	cout << buff << endl; // напечатали эту строку
+	
+	for (int i = 0; i < 100; i++) {
+		
+		if (buff[i] == huh[0]) { Stack.NPaste(1); }
+		if (buff[i] == huuh[0]) {
+			
+			if (Stack.check()) {
+
+				Stack.Delete(5555);
+			}
+			else { cout << "tyt yzhe vse nepravilno"; c = 1; break; }
+		}
+
+
+	}
+	cout << '\n';
+	Stack.Show();
+	if (c==1) { cout << "Disbalance"; }
+	else { cout << "balance"; }
+	cout << '\n';
+	Stack.Show();
+	system("pause");
+
+}
