@@ -1,0 +1,113 @@
+#include <iostream>
+
+#include <fstream>
+#include <cstdlib>
+#include <iomanip>
+
+#include <conio.h>
+
+
+using namespace std;
+
+
+void bubbleSort(int arr[], int max)
+{
+	int i, j, temp;
+
+	for (i = 1; i < max - 1; ++i)
+		for (j = 0; j < max - i; ++j)
+			if (arr[j] > arr[j + 1])
+			{
+				temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
+}
+
+
+
+int main()
+
+{
+
+	int i, j, k, n, m[10][10], ma[10], d, imas, p, dlina;
+
+	char a, mas[10];
+
+	d = 0;
+	i = 0;
+	p = 0;
+
+	//открытие файла
+	ifstream F;
+
+	F.open("C:\\Users\\Asus\\Desktop\\points.txt", ios::in);
+
+	//работа с файлом
+
+	while (!F.eof())
+	{
+		for (int l = 0; l < 2; l++)
+		{
+			do
+			{
+				F >> a; //DIS
+				if (a != ',')
+				{
+					//cout << "ya tut";
+					mas[i] = a;
+					i = i + 1;
+				}
+			} while (a != ',' && !F.eof());
+			//функция замены символа на число
+			imas = atoi(mas);
+			cout << "ya tut";
+			//обнуление промежуточного массива
+			j = i; i = 0;
+			for (k = 0; k<j; k++)
+			{
+				mas[k] = ' ';
+			}
+
+			//заполнение двумерного числового массива
+			m[p][l] = imas;
+
+		}
+		p = p + 1;
+	}
+	F.close();
+	cout << "konec fayla" << endl;
+
+	//вывод полученного двумерного массива
+	for (k = 0; k < p - 1; k++)
+	{
+		for (int l = 0; l < 2; l++)
+		{
+			cout << m[k][l] << " ";
+		}
+		ma[k] = m[k][1] - m[k][0];  //вычисление длин отрезков
+
+		cout << endl;
+	}
+
+
+	bubbleSort(ma, p - 1);  //сортировка массива с длинами отрезков
+
+							
+	do {
+		cout << "skolko otrezkov vi hotite sravnit'? ne bol'she " << p - 1 << endl;
+		cin >> n;
+		if (n > 5) {
+			cout << "not";
+		}
+		dlina = 0;
+
+		for (int i = p - 2; i > p - 2 - n; --i)
+			dlina = ma[i] + dlina;
+
+
+		cout << "dlina=" << dlina << endl;
+	} while (n != 0);
+	system("pause");
+	return 0;
+}
