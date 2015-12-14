@@ -1,0 +1,59 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+
+
+
+using namespace std;
+int main(void) {
+	int i;
+	cout << "Vvedite koli4stvo slov v stroke" << endl;
+	cin >> i;
+
+	int k = 0;
+	ifstream input_file("C:\\Users\\Asus\\Desktop\\strings.txt");
+	char word[64];
+	string slova[256];
+	while (!input_file.eof())
+
+	{
+		input_file >> word;
+		cout << word << endl;
+		slova[k] = word;
+		k++;
+	}
+
+	cout << endl;
+
+	ofstream book_file("C:\\Users\\Asus\\Desktop\\newstring.txt");
+	int y = 0;
+
+
+	while (slova[y] != slova[k]) 
+	{
+		y++;
+	book_file << slova[y-1]<<" ";
+	if ( i > 0 && y%i==0) { book_file << endl; }
+	
+}
+
+
+
+
+	
+
+
+
+
+
+	//book_file << endl;
+	//book_file << endl;
+	//book_file << endl;
+
+
+
+
+
+	system("pause");
+}
