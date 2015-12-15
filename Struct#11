@@ -1,0 +1,307 @@
+
+#include <iostream>
+#include <cctype>
+#include <cstring>
+#include <cstdlib>
+using namespace std;
+
+const int SIZE = 100;
+
+struct inv_type {
+	char lastname[40];//фамилия
+	
+	char oklad[40];//оклад
+	char vzyat[40];//дата поступления на работу
+	int proc_up;//процент надбавки
+	
+	int course;//табельный номер
+	int amount;//номер отдела
+	 //процент налоговых сборов
+	//количество отработанных дней в месяце
+	//начислено
+	//удержано
+
+
+
+
+}person[SIZE];
+
+void enter(), init_list(), display(), order();
+void update(), input(int i), search();
+
+int menu();
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+
+	char choice;
+	init_list();
+	for (;;) {
+		choice = menu();
+
+		switch (choice) {
+
+		case 'e': enter();
+			break;
+		case 'd': display();
+			break;
+		case 'u': update();
+			break;
+		case 's': search();
+			break;
+		case 'o': order();
+			break;
+		case 'q': return 0;
+
+		default: break;
+
+		}
+	}
+
+}
+
+void init_list()
+{
+	int t;
+	for (t = 0; t<SIZE; t++) *person[t].lastname = '\0';
+}
+
+int menu()
+{
+	char ch;
+	cout << '\n';
+	do {
+		cout << "*E*nter\n";
+		cout << "*D*isplay\n";
+		cout << "*U*pdate\n";
+		cout << "*S*earch\n";
+		cout << "*O*rder\n";
+		cout << "*Q*uit\n\n";
+		cout << "Выберите команду: \n";
+
+		cin >> ch;
+
+	} while (!strchr("edusoq", tolower(ch)));
+	return tolower(ch);
+}
+void enter()
+{
+	int i;
+	for (i = 0; i<SIZE; i++)
+		if (!*person[i].lastname) break;
+	if (i == SIZE) {
+		cout << "Список полон. \n";
+		return;
+	}
+	input(i);
+}
+
+void input(int i)
+{
+	cout << "Фамилия: ";
+	cin >> person[i].lastname;
+
+	
+
+	cout << "оклад: ";
+	cin >> person[i].oklad;
+
+	cout << "Взят: ";
+	cin >> person[i].vzyat;
+
+	cout << "Повышение%: ";
+	cin >> person[i].proc_up;
+
+
+
+	cout << "Табельный номер: ";
+	cin >> person[i].course;
+
+	cout << "Номер отдела: ";
+	cin >> person[i].amount;
+}
+
+void update()
+{
+	int i;
+
+	char name[40];
+
+	cout << "Введите Фамилию: ";
+	cin >> name;
+
+	for (i = 0; i<SIZE; i++)
+		if (!strcmp(name, person[i].lastname))break;
+
+	if (i == SIZE) {
+		cout << "Работник не существует\n";
+		return;
+	}
+	cout << "Введите новую информацию. \n";
+	input(i);
+}
+
+void display()
+{
+	int t;
+
+	for (t = 0; t<SIZE; t++) {
+		if (*person[t].lastname) {
+			cout << "Фамилию: " << person[t].lastname << '\n';
+			
+			cout << "\nоклад: ";
+			cout << person[t].oklad << '\n';
+			cout << "Взят: " << person[t].vzyat << '\n';
+			cout << "Повышение%: " << person[t].proc_up << '\n';
+			
+			cout << "Табельный номер: " << person[t].course << '\n';
+			cout << "Номер отдела: " << person[t].amount << '\n';
+			cout << "\n";
+		}
+	}
+}
+
+void search()
+{
+	int choice;
+
+	for (int i = 0; i<1; i++) {
+
+		cout << "Поиск по фамилии(1), окладу(2) или дате приема на работу(3)? \n";
+
+		cin >> choice;
+
+		switch (choice) {
+
+		case 1:
+
+			char name[80];
+			cout << "Введите Фамилию: \n";
+			cin >> name;
+			for (i = 0; i < SIZE; i++)
+				if (!strcmp(name, person[i].lastname)) {
+
+					cout << "\n";
+					cout << "Фамилию: " << person[i].lastname << '\n';
+					
+					cout << "\nоклад: ";
+					cout << person[i].oklad << '\n';
+					cout << "Взят: " << person[i].vzyat << '\n';
+					cout << "Повышение%: " << person[i].proc_up << '\n';
+					
+					cout << "Табельный номер: " << person[i].course << '\n';
+					cout << "Номер отдела: " << person[i].amount << '\n';
+				}
+
+			if (i == SIZE) {
+				cout << "Работник не существует\n";
+				return;
+			}
+
+			break;
+
+		case 2:
+
+			char money[80];
+			cout << "Оклад: \n";
+			cin >> money;
+			for (i = 0; i < SIZE; i++)
+				if (!strcmp(money, person[i].oklad)) {
+					cout << "\n";
+					cout << "Фамилия: " << person[i].lastname << '\n';
+					
+					cout << "\nОклад: ";
+					cout << person[i].oklad << '\n';
+					cout << "Принят на работу: " << person[i].vzyat << '\n';
+					cout << "Процент: " << person[i].proc_up << '\n';
+					cout << "Табельный номер: " << person[i].course << '\n';
+					cout << "Номер отдела: " << person[i].amount << '\n';
+				}
+
+			if (i == SIZE) {
+				cout << "Работник не существует\n";
+				return;
+			}
+
+
+			break;
+
+
+		case 3:
+
+			char date[80];
+			cout << "Введите дату приема на работу: \n";
+			cin >> date;
+			for (i = 0; i < SIZE; i++)
+				if (!strcmp(date, person[i].vzyat)) {
+					cout << "\n";
+					cout << "Фамилию: " << person[i].lastname << '\n';
+					
+					cout << "\nоклад: ";
+					cout << person[i].oklad << '\n';
+					cout << "Взят: " << person[i].vzyat << '\n';
+					cout << "Повышение%: " << person[i].proc_up << '\n';
+					
+					cout << "Табельный номер: " << person[i].course << '\n';
+					cout << "Номер отдела: " << person[i].amount << '\n';
+				}
+
+			if (i == SIZE) {
+				cout << "Работник не существует\n";
+				return;
+			}
+
+			break;
+		}
+	}
+}
+
+void order()
+{
+	char a1;
+	char a2;
+	char a3;
+	char a4;
+	char b;
+	int c1;
+	int c2;
+	int c3;
+
+	for (int i = 0; i < 2; i++) {
+
+		if (strcmp(person[i].lastname, person[i + 1].lastname) > 0) {
+
+			cout << "\n";
+
+			a1 = *person[i].lastname;
+			*person[i].lastname = *person[i + 1].lastname;
+			*person[i + 1].lastname = a1;
+
+		
+
+			b= *person[i].oklad;
+			*person[i].oklad = *person[i + 1].oklad;
+			*person[i + 1].oklad = b;
+
+			a3 = *person[i].vzyat;
+			*person[i].vzyat = *person[i + 1].vzyat;
+			*person[i + 1].vzyat = a3;
+
+			c1 = person[i].proc_up;
+			person[i].proc_up = person[i + 1].proc_up;
+			person[i + 1].proc_up = c1;
+
+			
+			c2 = person[i].course;
+			person[i].course = person[i + 1].course;
+			person[i + 1].course = c2;
+
+			c3 = person[i].amount;
+			person[i].amount = person[i + 1].amount;
+			person[i + 1].amount = c3;
+
+		}
+
+	}
+}
